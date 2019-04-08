@@ -8,6 +8,31 @@ import java.util.ArrayList;
  */
 public class Gauss {
 
+    void gauss(ArrayList<Double[]> matriz, int numVariables, int numEcuacione) {
+        int[] posPivote;
+
+        for (int i = 1; i <= numVariables; i++) {
+            posPivote = hallarPivote(matriz, numVariables, numEcuacione);
+            productoPivote(matriz, posPivote, 1/matriz.get(posPivote[0])[posPivote[1]]);
+            for (int j = 0; j < numEcuacione + 1; j++) {
+                if (matriz.get(j)[posPivote[1]] != 0) {
+                    double factor = matriz.get(j)[posPivote[1]];
+                    double[] producto = productoFila(matriz, posPivote, 1 / factor);
+                    sumarRenglonesG(matriz, j, producto);
+                }
+            }
+
+        }
+    }
+
+    void sumarRenglonesG(ArrayList<Double[]> sumando, int renglonSuma, double[] sumandoPivote) {
+        Double h[] = null;
+        for (int i = 0; i < sumando.get(0).length; i++) {
+            h[renglonSuma] = sumando.get(renglonSuma)[i] + sumandoPivote[i];
+        }
+        sumando.set(renglonSuma, h);
+    }
+
     void sumarRenglones(ArrayList<Double[]> sumando, int renglonSumando, int renglonSuma, int numVariables) {
         Double h[] = null;
         for (int i = 0; i < numVariables; i++) {
@@ -26,50 +51,52 @@ public class Gauss {
         }
         int col = menorPosicion(numeros);
         numeros.clear();
-        
+
         // Encontrar la fila
         for (int i = 1; i <= numEcuaciones; i++) {
-            double cociente = matriz.get(i)[(numVariables*2)+1] /  matriz.get(i)[col];
+            double cociente = matriz.get(i)[(numVariables * 2) + 1] / matriz.get(i)[col];
             numeros.add(cociente);
         }
         int fil = menorPosicion(numeros);
-        
+
         // Resultado
         int res[] = null;
         res[0] = fil;
         res[1] = col;
         return res;
     }
-    
-/**
- * Multiplica una final pivote por un número especifico
- * @param matriz
- * @param posPivote
- * @param multiplicador 
- */
+
+    /**
+     * Multiplica una final pivote por un número especifico
+     *
+     * @param matriz
+     * @param posPivote
+     * @param multiplicador
+     */
     void productoPivote(ArrayList<Double[]> matriz, int[] posPivote, double multiplicador) {
         for (double producto : matriz.get(posPivote[0])) {
             producto = producto * multiplicador;
-            
+
         }
     }
 
     /**
      * Retorna el producto de la fila especificada
+     *
      * @param matriz
      * @param posicion
      * @param multiplicador
-     * @return 
+     * @return
      */
     static double[] productoFila(ArrayList<Double[]> matriz, int[] posicion, double multiplicador) {
         double[] productos = null;
         for (int i = 0; i < matriz.size(); i++) {
-            productos [i] = multiplicador * matriz.get(posicion[0])[i];
+            productos[i] = multiplicador * matriz.get(posicion[0])[i];
         }
         return productos;
     }
-    
-  /*  static double menor(ArrayList<Double> numeros) {
+
+    /*  static double menor(ArrayList<Double> numeros) {
         double menor = numeros.get(0);
         for (Double i : numeros) {
             if (menor > i) {
@@ -78,17 +105,17 @@ public class Gauss {
         }
         return menor;
     }
-   */ 
-    
+     */
     /**
      * Regresa la columna del numero menor
+     *
      * @param numeros
-     * @return 
+     * @return
      */
     static int menorPosicion(ArrayList<Double> numeros) {
         double menor = numeros.get(0);
         int pos = 0;
-        for (int i = 0 ; i < numeros.size(); i++) {
+        for (int i = 0; i < numeros.size(); i++) {
             if (menor > numeros.get(i)) {
                 menor = numeros.get(i);
                 pos = i;
