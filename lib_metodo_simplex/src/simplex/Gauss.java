@@ -10,8 +10,6 @@ public class Gauss {
 
     public void gauss(ArrayList<Double[]> matriz, int numVariables, int numEcuacione) {
         int[] posPivote;
-
-        
             posPivote = hallarPivote(matriz, numVariables, numEcuacione);
             double multiplicador = Math.pow(matriz.get(posPivote[0])[posPivote[1]] , -1);
             productoPivote(matriz, posPivote,multiplicador );
@@ -45,9 +43,9 @@ public class Gauss {
         ArrayList<Double> numeros = new ArrayList();
         // Encontrar la columna
         for (int i = 1; i <= numVariables; i++) {
-            if (matriz.get(0)[i] < 0) {
+     //       if (matriz.get(0)[i] < 0) {
                 numeros.add(matriz.get(0)[i]);
-            }
+      //      }
         }
         int col = menorPosicion(numeros)+1;
         numeros.clear();
@@ -76,7 +74,7 @@ public class Gauss {
     void productoPivote(ArrayList<Double[]> matriz, int[] posPivote, double multiplicador) {
         Double[] producto = new Double[matriz.get(posPivote[0]).length];
         for (int i = 0; i < matriz.get(posPivote[0]).length; i++) {
-            producto[i] = multiplicador * matriz.get(posPivote[0])[i];
+            producto[i] = Math.round(multiplicador * matriz.get(posPivote[0])[i] * 100.0) / 100.0;
         }
         matriz.set(posPivote[0], producto);
     }
@@ -90,23 +88,13 @@ public class Gauss {
      * @return
      */
     static double[] productoFila(ArrayList<Double[]> matriz, int[] posicion, double multiplicador) {
-        double[] productos = new double [matriz.get(posicion[0]).length];
+        double[] productos = new double[matriz.get(posicion[0]).length];
         for (int i = 0; i < matriz.get(posicion[0]).length; i++) {
-            productos[i] = multiplicador * matriz.get(posicion[0])[i];
+            productos[i] = Math.round(multiplicador * matriz.get(posicion[0])[i] * 100.0) / 100.0;
         }
         return productos;
     }
 
-    /*  static double menor(ArrayList<Double> numeros) {
-        double menor = numeros.get(0);
-        for (Double i : numeros) {
-            if (menor > i) {
-                menor = i;
-            }
-        }
-        return menor;
-    }
-     */
     /**
      * Regresa la columna del numero menor
      *
